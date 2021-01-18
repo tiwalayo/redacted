@@ -1,4 +1,5 @@
 let io;
+let ph = require("./paranoiaHandler.js")
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
@@ -35,6 +36,9 @@ module.exports = {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
       });
+
+      ph.init(io, socket);
+
     });
   },
 

@@ -33,9 +33,9 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "FILL ME IN";
+const mongoConnectionURL = "mongodb+srv://admin:efQOlInhhx9EzNhI@cluster0.bqiwz.mongodb.net/paranoia?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
-const databaseName = "FILL ME IN";
+const databaseName = "paranoia";
 
 // connect to mongodb
 mongoose
@@ -62,6 +62,11 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+// gives user a UID if he doesn't have one yet
+console.log(auth.populateCurrentUser);
+console.log(auth.assignUID);
+app.use(auth.assignUID);
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
