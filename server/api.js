@@ -22,6 +22,7 @@ const router = express.Router();
 const socketManager = require("./server-socket");
 
 const rs = require("./room-service");
+const ph = require("./paranoiaHandler")
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -36,7 +37,10 @@ router.get("/whoami", (req, res) => {
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  console.log(`socket initiated. hi ${req.body.socketid} / ${req.user._id}`);
+  if (req.user){
+    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  }
   res.send({});
 });
 
@@ -45,27 +49,30 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post('/createGame', (req, res) => {
-  console.log(`user ${req.user} wants a new room`);
-  /*
-  const newId = rs.newRoom(req.user, req.body.username);
-  socketManager.getSocketFromUserID(req.user).join(newId);
+  console.log(`user ${req.body.username} wants a new room`);
+  const newId = rs.newRoom(req.user._id, req.body.username);
+  socketManager.getSocketFromUserID(req.user._id).join(newId);
   res.send({newId: newId});
   socketManager.getIo().in(newId).emit("attendees", rs.getMembers(newId).map((m) => m.username));
   console.log(`created room ${newId} for ${req.body.username}`);
-  */
 });
 
 router.post('/startGame', (req, res) => {
   let opts = {uid : req.user, started: true};
   opts = {...req.body, ...opts};
   rs.registerGame(req.body.gameId, opts);
+  res.send({});
   
+  console.log(`gonna start game in ${req.body.gameId}`)
+
   setTimeout(() => {
-  }, 1500);
+    socketManager.getIo().in(req.body.gameId).emit("gameStart", "go!");
+    ph.questionStage(req.body.gameId, socketManager);
+  }, 1000); //i don't remember why i set a delay here
 
 });
 
-router.get('verify', (req, res) => {
+router.get('/verify', (req, res) => {
   if (!rs.roomExists(req.query.gameId)){
     res.send({ok: false});
   }
@@ -78,13 +85,13 @@ router.get('verify', (req, res) => {
   }
 });
 
-router.get('names', (req, res) => {
+router.get('/names', (req, res) => {
   res.send({attendees: rs.getMembers(req.query.gameId).map((m) => m.username)});
 });
 
-router.post('join', (req, res) => {
-  socketManager.getSocketFromUserID(req.user).join(req.body.gameId);
-  rs.addMember(req.body.gameId, {id: req.user, username: req.body.username});
+router.post('/join', (req, res) => {
+  socketManager.getSocketFromUserID(req.user._id).join(req.body.gameId);
+  rs.addMember(req.body.gameId, {id: req.user._id, username: req.body.username});
   res.send({attendees: rs.getMembers(req.body.gameId).map((m) => m.username)});
   socketManager.getIo().in(req.body.gameId).emit('attendees', rs.getMembers(req.body.gameId).map((m) => m.username));
   console.log(`added ${req.body.username} to game ${req.body.gameId}`);

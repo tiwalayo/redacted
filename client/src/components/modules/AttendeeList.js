@@ -21,9 +21,9 @@ class AttendeeList extends Component {
     return (
       <div className="AttendeeList-container">
         <div className="AttendeeList-gridcontainer">
-          {this.props.attendees.map((attendee) => {
-            <div class="AttendeeList-attendee">{attendee.name}</div>
-          })}
+          {this.props.attendees.map((attendee, index) => (
+            <div key={index} className="AttendeeList-attendee">{attendee}</div>
+          ))}
         </div>
       </div>
     );

@@ -38,13 +38,13 @@ class Homepage extends Component {
     return this.state.username === null ? (
       <>
         <h1>paranoia</h1>
-        <HomepageInput defaultText="pick a username" onSubmit={this.openOptions}/>
+        <HomepageInput defaultText="pick a username" buttonText="create room" onSubmit={this.openOptions}/>
       </>
     ) : (
       <>
         <h1>paranoia</h1>
         <div className="Homepage-menulist-container">
-          <SetupMenu username={this.state.username} onCreate={this.notifyCreation}/>
+          <SetupMenu username={this.state.username} onCreate={this.notifyCreation} attendees={this.state.attendees}/>
           {attendeeList}
         </div>
       </>

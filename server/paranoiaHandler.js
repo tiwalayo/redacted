@@ -1,5 +1,5 @@
 const rs = require("./room-service");
-const socketManager = require("./server-socket");
+let socketManager = require("./server-socket");
 
 let sio;
 let s;
@@ -33,7 +33,7 @@ function questionSubmit(data){
       asker: rs.getMembers(gameId).filter((i) => i.id == socketManager.socketToUserMap(this)).username
     });
 
-    if (rs.getMembers(gameId).length <= g.questions.length){
+    if (rs.getMembers(gameId).length-1 <= g.questions.length){
       g.ended = true;
       answerStage(gameId);
     }
@@ -54,7 +54,10 @@ function answerSubmit(data){
   }
 }
 
-questionStage = (gameId) => {
+questionStage = (gameId, smm) => {
+
+  socketManager = smm;
+  io = smm.getIo();
 
   let g = rs.getGame(gameId);
 
@@ -65,37 +68,49 @@ questionStage = (gameId) => {
   if (g.flag){
     io.in(gameId).emit("failedToAnswer", g.answerer.username);
   }
-
+  console.log(socketManager);
+  console.log(socketManager.getIo().sockets.adapter.rooms);
   let members = rs.getMembers(gameId);
 
   g.ended = false;
   let answerer = members[Math.floor(Math.random() * members.length)];
-  let answererSocket = socketManager.userToSocketMap(answerer.id);
+  let answererSocket = socketManager.getSocketFromUserID(answerer.id);
+
+  console.log(`${gameId}: answerer is ${answerer.username}`);
+  console.log(answererSocket.id);
 
   g.answerer = answerer;
   g.timeout = Date.now() + g.qTime * 1000;
   g.expecting = "questionSubmit";
   g.questions = Array();
 
+  setTimeout(() => {
+
   answererSocket.to(gameId).emit("asking", {
     time: g.qTime,
     answerer: answerer.username,
   });
   
-  io.to(answererSocket).emit("pending", {
+  console.log(`telling ${answerer} to wait`);
+  io.to(answererSocket.id).emit("pending", {
     time: g.qTime,
     role: "answerer",
+    answerer: answerer.username,
   });
+  }, 100);
 
   setTimeout(() => {
     if (!g.ended){
-      answerStage();
+      answerStage(gameId, socketManager);
     }
   }, g.qTime*1000);
 }
 
 
-answerStage = (gameId) => {
+answerStage = (gameId, smm) => {
+
+  socketManager = smm;
+  io = smm.getIo();
 
   let g = rs.getGame(gameId);
 
@@ -105,34 +120,43 @@ answerStage = (gameId) => {
   g.ended = false;
   g.flag = false;
 
-  let answerer = g.answerer
-  let answererSocket = socketManager.userToSocketMap(answerer.id);
+  if (!g.questions){
+    console.log("no questions")
+    questionStage(gameId, socketManager);
+  }
+  else {
+    let answerer = g.answerer
+    let answererSocket = socketManager.getSocketFromUserID(answerer.id);
 
-  let question_obj = g.questions[Math.floor(Math.random() * g.questions.length)];
-  let question = question_obj.question;
-  let asker = question_obj.asker;
+    console.log(g)
 
-  g.timeout = Date.now() + g.aTime * 1000;
-  g.expecting = "answerSubmit";
-  g.question = question;
-  q.asker = asker;
+    let question_obj = g.questions[Math.floor(Math.random() * g.questions.length)];
+    let question = question_obj.question;
+    let asker = question_obj.asker;
 
-  answererSocket.to(gameId).emit("pending", {
-    time: g.aTime,
-    role: "asker",
-  });
-  
-  io.to(answererSocket).emit("answering", {
-    time: g.aTime,
-    question: question,
-  });
+    g.timeout = Date.now() + g.aTime * 1000;
+    g.expecting = "answerSubmit";
+    g.question = question;
+    q.asker = asker;
 
-  setTimeout(() => {
-    if (!g.ended){
-      g.flag = true;
-      questionStage();
-    }
-  }, g.aTime*1000);
+    answererSocket.to(gameId).emit("pending", {
+      time: g.aTime,
+      role: "asker",
+    });
+    
+    console.log(`telling ${answerer} to answer`);
+    io.to(answererSocket.id).emit("answering", {
+      time: g.aTime,
+      question: question,
+    });
+
+    setTimeout(() => {
+      if (!g.ended){
+        g.flag = true;
+        questionStage(gameId, socketManager);
+      }
+    }, g.aTime*1000);  
+  }
 }
 
 showdownStage = (gameId) => {

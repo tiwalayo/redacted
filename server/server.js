@@ -64,8 +64,6 @@ app.use(
 );
 
 // gives user a UID if he doesn't have one yet
-console.log(auth.populateCurrentUser);
-console.log(auth.assignUID);
 app.use(auth.assignUID);
 
 // this checks if the user is logged in, and populates "req.user"

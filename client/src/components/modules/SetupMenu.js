@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { socket } from "../../client-socket.js";
 import { post } from "../../utilities.js";
+import { navigate } from "@reach/router"
 
 import "../../utilities.css";
 import "./SetupMenu.css";
@@ -10,6 +10,7 @@ import "./SetupMenu.css";
  * Proptypes
  * @param {string} username
  * @param {function} onCreate
+ * @param {[string]} attendees
  */
 class SetupMenu extends Component {
   constructor(props) {
@@ -51,17 +52,21 @@ class SetupMenu extends Component {
   }
 
   startGame = (event) => {
-    event.preventDefault();
+    if (this.props.attendees.length > 1){
+      event.preventDefault();
 
-    post("/api/startGame", {
-      reveal: this.state.checked,
-      factor: this.state["SetupMenu-factor"],
-      qTime: this.state["SetupMenu-qTime"],
-      aTime: this.state["SetupMenu-aTime"],
-      gameId: this.state.gameId,
-      username: this.props.username
-    }).then(() => {
-    });
+      post("/api/startGame", {
+        reveal: this.state.checked,
+        factor: this.state["SetupMenu-factor"],
+        qTime: this.state["SetupMenu-qTime"],
+        aTime: this.state["SetupMenu-aTime"],
+        gameId: this.state.gameId,
+        username: this.props.username
+      }).then(() => {
+        navigate(`/${this.state.gameId}`, { state: { username: this.props.username } });
+      });
+
+    }
   }
 
   copyLink = (event) => {

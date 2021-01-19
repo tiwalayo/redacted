@@ -21,7 +21,7 @@ class Chat extends Component {
     return (
       <div className="Chat-container">
         <div className="Chat-gridcontainer">
-          [this will be a chat eventally]
+          [this will be a chat eventually]
         </div>
       </div>
     );
