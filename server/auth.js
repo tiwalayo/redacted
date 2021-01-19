@@ -5,7 +5,8 @@ const nanoid = require('nanoid').nanoid;
 
 // create a new OAuth client used to verify google sign-in
 //    TODO: replace with your own CLIENT_ID
-const CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+//const CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+const CLIENT_ID = '362570506291-po5sau3627iksge076613pputcqtiao7.apps.googleusercontent.com'
 const client = new OAuth2Client(CLIENT_ID);
 
 // accepts a login token from the frontend, and verifies that it's legit
@@ -34,11 +35,14 @@ function getOrCreateUser(user) {
 }
 
 function login(req, res) {
+  console.log("about to verify");
   verify(req.body.token)
     .then((user) => getOrCreateUser(user))
     .then((user) => {
       // persist user in the session
       req.session.user = user;
+      req.session.goog = "ok";
+      console.log(`logged in ${user._id} with google`)
       res.send(user);
     })
     .catch((err) => {
@@ -61,6 +65,9 @@ function populateCurrentUser(req, res, next) {
 function assignUID(req, res, next) {
   if (!req.session.user){
     req.session.user = {_id: nanoid()};
+  }
+  if (req.session.goog){
+    console.log("we've got a googler")
   }
   console.log(`assigned ${req.session.user._id}`);
   next();

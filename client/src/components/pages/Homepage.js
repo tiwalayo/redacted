@@ -12,7 +12,7 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = { username: null };
+    this.state = { username: null, attendees: [] };
   }
 
   openOptions = (username) => {
@@ -39,6 +39,7 @@ class Homepage extends Component {
       <>
         <h1>paranoia</h1>
         <HomepageInput defaultText="pick a username" buttonText="create room" onSubmit={this.openOptions}/>
+        <a href="/login">login</a>
       </>
     ) : (
       <>

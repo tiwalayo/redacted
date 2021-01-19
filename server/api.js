@@ -35,6 +35,15 @@ router.get("/whoami", (req, res) => {
   res.send(req.user);
 });
 
+router.get("/amigoog", (req, res) => {
+  if (req.session.goog) {
+    res.send({ok: true});
+  }
+  else {
+    res.send({ok: false});
+  }
+});
+
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   console.log(`socket initiated. hi ${req.body.socketid} / ${req.user._id}`);
@@ -47,6 +56,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+const stopWords = ['her', 'ma', 'when', "weren't", "shan't", 's', 'here', 'some', 'haven', "isn't", 'our', 'few', 'only', 'very', "mightn't", 'or', 'your', 'should', 'being', 'where', 'same', 'all', 'against', 'after', 'i', 'out', "hasn't", 'this', 'nor', 'itself', 'to', 'mustn', 'shan', 'myself', 'about', 'as', 'will', "you're", 'does', 'didn', 'you', 'ain', "didn't", 'isn', 't', 'down', 'they', 'she', 'doesn', 'their', "haven't", 'has', 'again', 'mightn', 'd', 'what', 'himself', 'over', 'during', 'through', "doesn't", 'is', 'y', 'hasn', 'ours', 'such', "hadn't", 'the', 'further', 'each', 'have', "it's", 'below', "mustn't", "you'd", 'that', 'my', 'did', 'are', 'if', 'above', 'once', 'yourselves', 'more', 'own', 'then', 'until', 'needn', 'an', 'been', 'but', 'no', 'were', 'too', 'shouldn', 'won', 'up', 'be', 'he', "don't", 'of', 'don', 'whom', "needn't", 'why', 'couldn', 'hadn', 'both', 'than', "wasn't", 'who', 'before', 'under', 'there', 'hers', 'am', 'we', 'these', 'yourself', 'a', 'most', 'other', 'by', "aren't", 'wouldn', 'them', 'its', 've', 'having', 'm', 'themselves', 'those', 'because', "should've", 'and', 'how', "couldn't", 'o', 'aren', 'while', 'between', 'from', 'with', 'weren', 'on', 'so', 'into', "that'll", 'at', 'not', 'wasn', 'just', 'which', 'was', 'him', 'off', 'can', 'any', 'it', 'for', "shouldn't", "won't", 'herself', 'yours', 'theirs', 'in', "you've", "you'll", 'doing', 'll', 'his', 'had', 'do', 'now', 'me', "wouldn't", 'ourselves', 're', "she's"];
 
 router.post('/createGame', (req, res) => {
   console.log(`user ${req.body.username} wants a new room`);
@@ -95,6 +105,27 @@ router.post('/join', (req, res) => {
   res.send({attendees: rs.getMembers(req.body.gameId).map((m) => m.username)});
   socketManager.getIo().in(req.body.gameId).emit('attendees', rs.getMembers(req.body.gameId).map((m) => m.username));
   console.log(`added ${req.body.username} to game ${req.body.gameId}`);
+});
+
+router.post('/document', (req, res) => {
+  newEntry = req.body.question.split(' ').join(',').split('?').join(',').split('.').join(',').split(',').filter(item => !stopWords.includes(item));
+  User.findById(req.user._id).then(user => {
+    user.library = user.library.concat(newEntry);
+    user.save().then((r) => res.send(r));
+  });
+});
+
+
+router.get('/retrieve', (req, res) => {
+  if (req.user._id && req.session.goog){
+    User.findById(req.user._id).then(user => {
+      library = user.library;
+      res.send({library});
+    });
+  }
+  else {
+    res.send({library: []});
+  }
 });
 
 // anything else falls to this "not found" case
