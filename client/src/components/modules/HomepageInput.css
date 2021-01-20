@@ -1,0 +1,27 @@
+.HomepageInput-button {
+  background-color: #3d3d3d;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: var(--xs) var (--xs);
+  cursor: pointer;
+  display: none;
+}
+
+
+.HomepageInput-input {
+  background-color: #333333;
+  border: none;
+  color: #d6d6d6;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: var(--xs) var (--xs);
+  cursor: pointer;
+}
