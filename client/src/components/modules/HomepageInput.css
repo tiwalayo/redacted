@@ -12,16 +12,21 @@
   display: none;
 }
 
-
+/* check https://stackoverflow.com/questions/18389224/how-to-style-html5-range-input-to-have-different-color-before-and-after-slider
+ * for compatibility info */
 .HomepageInput-input {
-  background-color: #333333;
+  background-color: #484848;
   border: none;
   color: #d6d6d6;
-  padding: 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: var(--xs) var (--xs);
-  cursor: pointer;
+  font-size: 3vw;
+  font-style: normal;
+  margin-top: 4vh;
+  width: 100%;
+}
+
+.HomepageInput-input[value=""] {
+  font-style: italic;
 }
