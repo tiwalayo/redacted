@@ -1,0 +1,26 @@
+.AttendeeList-container {
+  position: absolute;
+  width: 80%;
+  text-align: center;
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+
+.AttendeeList-gridcontainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  overflow-y: scroll;
+}
+
+.AttendeeList-attendee {
+  background-color: var(--darkgrey);
+  border: none;
+  color: var(--lightgrey);
+  border-radius: 8px;
+  padding: 6px;
+}

@@ -1,0 +1,16 @@
+.Timer-container {
+  grid-area: timer;
+  background-color: var(--themedarkred);
+  color: var(--themered);
+  text-align: center;
+  border-radius: 6px;
+  position: relative;
+}
+
+.Timer-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5vh;
+}

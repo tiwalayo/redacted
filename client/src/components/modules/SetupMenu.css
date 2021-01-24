@@ -1,6 +1,93 @@
 .SetupMenu-container {
-  display: inline-block;
   text-align: left;
   padding: 24px;
   background-color: #333333;
+  color: var(--lightgrey);
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 8px;
+  margin-top: 2vh;
+}
+
+.SetupMenu-entry > * {
+  display: inline-block;
+}
+
+.SetupMenu-entry > input {
+  margin: 12px 0;
+}
+
+.noslider {
+  margin: 0;
+  visibility: hidden;
+  height: 0;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+
+  margin-top: -12px;
+  margin-left: -8px;
+}
+
+form > * {
+  margin-left: 8px;
+  margin-top: 12px;
+}
+
+form > *:first-child {
+    margin-left: 8px;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.SetupMenu-create-button {
+  background-color: var(--themeblue);
+  border: none;
+  color: var(--darkgrey);
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.SetupMenu-gamelink {
+  background-color: var(--themeblue);
+  border: none;
+  color: var(--darkgrey);
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.SetupMenu-gamelink-caption {
+  font-size: 12px;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.SetupMenu-submit-button {
+  background-color: var(--themegreen);
+  border: none;
+  color: var(--darkgrey);
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+
+  margin-top: 5vh;
 }

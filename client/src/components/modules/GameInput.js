@@ -36,7 +36,7 @@ class GameInput extends Component {
 
   _handleKeyDown = (e) => {
     console.log(this.state.value, this.props.inputType)
-    if (e.key === 'Enter' && (/\S/.test(this.state.value))) {
+    if (e.key === 'Enter' && (/\S/.test(this.state.value))) { // if string isn't empty
       if (this.props.inputType == "ask"){
         socket.emit("questionSubmit", {
           gameId: this.props.gameId,
@@ -46,12 +46,16 @@ class GameInput extends Component {
 
         post("/api/document", {question: this.state.value}).then(() => {});
       }
+
       if (this.props.inputType == "answer"){
         socket.emit("answerSubmit", {
           gameId: this.props.gameId,
           answer: this.state.value
         })
       }
+
+      this.setState({value: ""});
+
     }
   }
 
@@ -63,9 +67,13 @@ class GameInput extends Component {
     return (
       <div className="GameInput-container">
         <div className="GameInput-heading">
-          {this.props.heading}
+          {this.props.inputType === "answer" ?
+            "you were asked: " (<b>{this.props.heading}</b>)
+          :
+            this.props.heading
+          }
         </div>
-        <input
+        <textarea
           type="text"
           placeholder={`${this.props.inputType} here`}
           value={this.state.value}

@@ -4,6 +4,7 @@ import { socket } from "../../client-socket.js";
 import HomepageInput from "../modules/HomepageInput.js";
 import SetupMenu from "../modules/SetupMenu.js";
 import AttendeeList from "../modules/AttendeeList.js"
+import Header from "../modules/Header.js"
 
 import "../../utilities.css";
 import "./Homepage.css";
@@ -12,7 +13,7 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = { username: null, attendees: [] };
+    this.state = { username: null, attendees: []};
   }
 
   openOptions = (username) => {
@@ -36,18 +37,26 @@ class Homepage extends Component {
     ) : (<></>);
 
     return this.state.username === null ? (
-      <div className="Homepage-container">
-        <div className="Homepage-h1-container"><h1>paranoia</h1></div>
-        <HomepageInput defaultText="type a username" buttonText="create room" onSubmit={this.openOptions}/>
-      </div>
-    ) : (
-      <div className="Homepage-container">
-        <div className="Homepage-h1-container"><h1>paranoia</h1></div>
-        <div className="Homepage-menulist-container">
-          <SetupMenu username={this.state.username} onCreate={this.notifyCreation} attendees={this.state.attendees}/>
-          {attendeeList}
+      <>
+        <Header visible={false} animate={false} />
+        <div className="Homepage-container">
+          <div className="Homepage-h1-container"><h1 className="centerheader">paranoia</h1></div>
+          <HomepageInput defaultText="type a username" buttonText="create room" onSubmit={this.openOptions}/>
         </div>
-      </div>
+      </>
+    ) : (
+      <>
+        <Header visible={true} animate={true} />
+        <div className="Homepage-container">
+          <div className="Homepage-h1-container">
+            <h1 className="centerheader animate__animated animate__fadeOut">paranoia</h1>
+            {attendeeList}
+          </div>
+          <div className="Homepage-menulist-container">
+            <SetupMenu username={this.state.username} onCreate={this.notifyCreation} attendees={this.state.attendees}/>
+          </div>
+        </div>
+      </>
     );
   }
 }

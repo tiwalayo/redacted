@@ -79,26 +79,30 @@ class SetupMenu extends Component {
 
 
   render() {
-    return (
+    return ( <>
       <div className="SetupMenu-container">
         <form onSubmit={this.handleSubmit}>
           <div className="SetupMenu-entry">
-            <label htmlFor="reveal">Reveal the asker?</label>
+            <label htmlFor="reveal">Reveal asker?</label>
             <input type="checkbox" id="SetupMenu-reveal" name="reveal" onChange={this.handleCheck} checked={this.state.checked} />
+            <input className="noslider" type="range" />
           </div>
           <div className="SetupMenu-entry">
-            <label htmlFor="factor">Paranoia factor: </label>
+            <label htmlFor="factor">Paranoia factor</label>
             <input type="range" id="SetupMenu-factor" name="factor" min="0" max="100" value={this.state["SetupMenu-factor"]} onChange={this.handleChange} />
+            <div className="SetupMenu-entry-caption invisible">
+              {`${this.state["SetupMenu-factor"]}s`}
+            </div>
           </div>
           <div className="SetupMenu-entry">
-            <label htmlFor="qTime">Time to ask: </label>
+            <label htmlFor="qTime">Time to ask</label>
             <input type="range" id="SetupMenu-qTime" name="qTime" min="15" max="60" value={this.state["SetupMenu-qTime"]} onChange={this.handleChange} />
             <div className="SetupMenu-entry-caption">
               {`${this.state["SetupMenu-qTime"]}s`}
             </div>
           </div>
           <div className="SetupMenu-entry">
-            <label htmlFor="aTime">Time to answer: </label>
+            <label htmlFor="aTime">Time to answer</label>
             <input type="range" id="SetupMenu-aTime" name="aTime" min="15" max="60" value={this.state["SetupMenu-aTime"]} onChange={this.handleChange} />
             <div className="SetupMenu-entry-caption">
               {`${this.state["SetupMenu-aTime"]}s`}
@@ -106,19 +110,19 @@ class SetupMenu extends Component {
           </div>
           <div className="SetupMenu-submit">
             { !this.state.gameId ?
-                (<button className="SetupMenu-submit-button" type="submit">create game</button>) :
+                (<button className="SetupMenu-create-button" type="submit">create game</button>) :
                 (
                   <>
                     <div className="SetupMenu-gamelink" onClick={this.copyLink}>{this.state.gameLink}</div>
                     <div className="SetupMenu-gamelink-caption" ref={this.hintText}>click game link to copy</div>
-                    <button type="button" className="SetupMenu-create" onClick={this.startGame}>start</button>
                   </>
                 )
             }
           </div>
         </form>
       </div>
-    );
+      {!this.state.gameId ? "" : (<button type="button" className="SetupMenu-submit-button" onClick={this.startGame}>start game</button>)}
+    </>);
   }
 }
 

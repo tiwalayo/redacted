@@ -6,6 +6,7 @@ import { navigate } from "@reach/router"
 import Game from "../modules/Game.js"
 import AttendeeList from "../modules/AttendeeList.js"
 import HomepageInput from "../modules/HomepageInput.js"
+import Header from "../modules/Header.js"
 
 import "../../utilities.css";
 import "./GameRoom.css";
@@ -23,11 +24,9 @@ class GameRoom extends Component {
     this.state = {
       attendees: [],
     };
-    console.log("passed user data:")
-    console.log(this.props.location.state);
+
     if (this.props.location.state != null){
-      this.state.username = this.props.location.state.username;
-      this.state.displayLoad = true;
+      this.setState({username: this.props.location.state.username, displayLoad: true})
     }
 
     if (this.props.options){
@@ -86,7 +85,10 @@ class GameRoom extends Component {
 
 
   render() {
-    const pHeader = (<div className="paranoia-header">paranoia</div>);
+
+    if (this.state.displayLoad && !this.state.started){
+      return (<div className="Game-loading"><div>loading...</div></div>)
+    }
     let toShow;
 
     if (!this.state.username){
@@ -104,14 +106,16 @@ class GameRoom extends Component {
     } else {
       toShow = (
         <div className="GameRoom-waiting-container">
+          <div className="GameRoom-overflow-container">
+            <AttendeeList attendees={this.state.attendees}/>
+          </div>
           <div className="GameRoom-waiting-blurb">{this.state.gameCreator ? `${this.state.gameCreator} is setting up the game...` : ""}</div>
-          <AttendeeList attendees={this.state.attendees}/>
         </div>
       )
     } 
     return (
       <>
-        {pHeader}
+        <Header visible={true} animate={true} />
         {toShow}
       </>
     )

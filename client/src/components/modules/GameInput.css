@@ -1,0 +1,40 @@
+.GameInput-container {
+  grid-area: main;
+  background-color: var(--darkgrey);
+  padding: 24px;
+  text-align: center;
+  overflow-y: hidden;
+}
+
+.GameInput-heading {
+  margin: 0 auto;
+  margin-top: 70%;
+  margin-bottom: 20%;
+  color: var(--softwhite);
+  overflow-wrap: break-word;
+}
+
+.GameInput-input {
+  background-color: var(--darkgrey);
+  border: none;
+  color: var(--softwhite);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 3vw;
+  font-style: normal;
+  margin-top: 4vh;
+  width: 100%;
+
+  resize: none;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  margin: 0 auto;
+  height: 40%;
+  margin-bottom: 1vh;
+}
+
+.GameInput-input[value=""] {
+  font-style: italic;
+}

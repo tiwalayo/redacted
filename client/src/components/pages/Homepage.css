@@ -1,19 +1,35 @@
 .Homepage-container {
-    height: 100vh;
+    height: calc(99vh - 5vh - 1vh - 2vh);
     width: 100vw;
 }
 
 .Homepage-h1-container {
-    display: flex;
-    align-items: flex-end;
-    height: 50vh;
+    position: relative;
+    height: calc(50vh - 5vh - 1vh - 2vh);
+    overflow-y: auto;
 }
 
-h1 {
+h1.centerheader {
   text-align: center;
   color: var(--lightgrey);
   font-size: 10vw;
   white-space: nowrap;
   width:100%;
   margin: 0;
+  position: absolute;
+  bottom: 0px;
+}
+
+.centerheader {
+    animation-duration: 0.3s;
+}
+.header {
+    animation-duration: 0.5s;
+}
+.nodisplay {
+    visibility: hidden;
+}
+
+.Homepage-menulist-container {
+  text-align: center;
 }

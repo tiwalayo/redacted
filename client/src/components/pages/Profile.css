@@ -8,3 +8,8 @@
 .bld {
     font-weight: bold;
 }
+
+.Profile-container {
+  color: var(--softwhite);
+  padding: 24px;
+}

@@ -1,0 +1,29 @@
+.GameRoom-overflow-container {
+  height: calc(50vh - 5vh - 1vh - 2vh);
+  width: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.GameRoom-waiting-blurb {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 0px;
+  text-align: center;
+  margin-top: 3vh;
+  text-decoration: none;
+  padding: 16px;
+  border: none;
+  background-color: var(--themedarkblue);
+  color: var(--themeblue);
+}
+
+.GameRoom-username-input {
+  height: 50vh;
+  position: relative;
+}
+
+.GameRoom-username-input .HomepageInput-input {
+  position: absolute;
+  bottom: 0;
+}
