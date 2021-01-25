@@ -4,14 +4,20 @@
   padding: 24px;
   text-align: center;
   overflow-y: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .GameInput-heading {
   margin: 0 auto;
-  margin-top: 70%;
-  margin-bottom: 20%;
   color: var(--softwhite);
   overflow-wrap: break-word;
+
+  flex-basis: 0%;
+  display: flex;
+  align-items: end;
 }
 
 .GameInput-input {
@@ -31,8 +37,11 @@
   border: none;
   font-family: inherit;
   margin: 0 auto;
-  height: 40%;
   margin-bottom: 1vh;
+
+  flex-basis: 60%;
+  display: flex;
+  align-items: start;
 }
 
 .GameInput-input[value=""] {

@@ -77,8 +77,9 @@ router.post('/startGame', (req, res) => {
 
   setTimeout(() => {
     socketManager.getIo().in(req.body.gameId).emit("gameStart", "go!");
+    socketManager.getIo().in(req.body.gameId).emit('attendees', rs.getMembers(req.body.gameId).map((m) => m.username));
     ph.questionStage(req.body.gameId, socketManager);
-  }, 1000); //i don't remember why i set a delay here
+  }, 1500); // delay so people can get ready
 
 });
 
@@ -107,12 +108,16 @@ router.post('/join', (req, res) => {
   console.log(`added ${req.body.username} to game ${req.body.gameId}`);
 });
 
-router.post('/document', (req, res) => {
+/*router.post('/document', (req, res) => {
   newEntry = req.body.question.split(' ').join(',').split('?').join(',').split('.').join(',').split(',').filter(item => !stopWords.includes(item));
   User.findById(req.user._id).then(user => {
     user.library = user.library.concat(newEntry);
     user.save().then((r) => res.send(r));
   });
+});*/
+
+router.post('/document', (req, res) => {
+  res.send({});
 });
 
 
@@ -126,6 +131,10 @@ router.get('/retrieve', (req, res) => {
   else {
     res.send({library: []});
   }
+});
+
+router.get("/lag", (req, res) => {
+  res.send({date: Date.now()});
 });
 
 // anything else falls to this "not found" case

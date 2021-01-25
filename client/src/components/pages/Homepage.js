@@ -24,11 +24,15 @@ class Homepage extends Component {
     this.setState({gameCreated: true});
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     // remember -- api calls go here!
     socket.on("attendees", (attendees) => {
       this.setState({attendees: attendees});
     })
+  }
+
+  componentWillUnmount = () => {
+    socket.off("attendees");
   }
 
   render() {
@@ -46,7 +50,7 @@ class Homepage extends Component {
       </>
     ) : (
       <>
-        <Header visible={true} animate={true} />
+        <Header visible={true} animate={true} left={false}/>
         <div className="Homepage-container">
           <div className="Homepage-h1-container">
             <h1 className="centerheader animate__animated animate__fadeOut">paranoia</h1>

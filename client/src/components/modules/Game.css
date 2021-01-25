@@ -40,3 +40,21 @@
 .GameInput-container {
   grid-area: main;
 }
+
+.Showdown-container {
+  grid-area: main;
+}
+
+.Game-pending-caption {
+  grid-area: main;
+  background-color: var(--darkgrey);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--softwhite);
+  text-align: center;
+}
+
+.Game-pending-caption > div {
+  margin: 0 auto;
+}

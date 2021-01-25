@@ -26,16 +26,16 @@ class GameRoom extends Component {
     };
 
     if (this.props.location.state != null){
-      this.setState({username: this.props.location.state.username, displayLoad: true})
+      console.log("inherited", this.props.location.state);
+      let addState = {username: this.props.location.state.username, displayLoad: true};
+      this.state = {...this.state, ...addState};
     }
 
     if (this.props.options){
-      this.setState({
-        started: this.props.options.started,
-        username: this.props.options.username,
-        gameCreator: this.props.options.gameCreator,
-        attendees: this.props.options.attendees,
-      });
+      this.state.started = this.props.options.started;
+      this.state.username = this.props.options.username;
+      this.state.gameCreator = this.props.options.gameCreator;
+      this.state.attendees = this.props.options.attendees;
     }
   }
 
@@ -51,6 +51,7 @@ class GameRoom extends Component {
           gameId: this.props.gameId,
           username: value,
       }).then((a) => {
+        console.log("we starting");
         this.setState({
           gameCreator: resp.gameCreator,
           started: resp.started,
@@ -87,6 +88,7 @@ class GameRoom extends Component {
   render() {
 
     if (this.state.displayLoad && !this.state.started){
+      console.log(this.state.displayLoad, !this.state.started);
       return (<div className="Game-loading"><div>loading...</div></div>)
     }
     let toShow;
@@ -115,7 +117,7 @@ class GameRoom extends Component {
     } 
     return (
       <>
-        <Header visible={true} animate={true} />
+        <Header visible={true} animate={true} left={true}/>
         {toShow}
       </>
     )

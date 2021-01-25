@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
+import { get } from "../../utilities.js";
 
 import Timer from "../modules/Timer.js"
 import PlayerList from "../modules/PlayerList.js"
@@ -24,22 +25,36 @@ class Game extends Component {
     };
   }
 
-  componentDidMount(){
+  getLag = () => {
+    let ROUNDS = 5;
+    let delta = 0;
+    for (let i=0; i<ROUNDS; i++){
+      get("/api/lag", {}).then((resp) => {
+        delta += (resp.date - Date.now());
+        console.log("[lagcheck] delta now", delta);
+      });
+    }
+    return delta/ROUNDS;
+  }
+
+  componentDidMount = () => {
+
+    this.lag = this.getLag();
 
     socket.on("asking", (data) => {
-      console.log("now asking")
       this.setState({
-        stage: "asking",
-        time: data.time,
+        stage: "ask",
+        time: parseInt(data.time),
         answerer: data.answerer,
-      });
+      }, () => { console.log("received ask event; state is", this.state); });
+      console.log("received ask event with data", data);
     });
 
     socket.on("pending", (data) => {
       console.log("now pending")
       this.setState({
         stage: "pending",
-        time: data.time,
+        time: parseInt(data.time),
         role: data.role,
         answerer: data.answerer
       });
@@ -47,8 +62,8 @@ class Game extends Component {
 
     socket.on("answering", (data) => {
       this.setState({
-        stage: "answering",
-        time: data.time,
+        stage: "answer",
+        time: parseInt(data.time),
         question: data.question,
       });
     });
@@ -64,60 +79,42 @@ class Game extends Component {
     });
   }
 
+
   render() {
-    let gameScreen;
-    if (this.state.stage === "asking"){
-      gameScreen = (
-        <>
-          <Timer time={this.state.time} />
-          <PlayerList gameId={this.props.gameId} />
-          <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
-          <Chat gameId={this.props.gameId} />
-        </>
-      );
-    } else if (this.state.stage === "pending") {
-      gameScreen = (
-        <>
-          <Timer time={this.state.time} />
-          <PlayerList gameId={this.props.gameId} />
-          <div className="Game-pending-caption">
-            { this.state.role == "answerer" ?
-            "people are thinking of what to ask you" :
-            `waiting for ${this.state.answerer} to answer`}
-          </div>
-          <Chat gameId={this.props.gameId} />
-        </>
-      );
-    } else if (this.state.stage === "answering"){
-      gameScreen = (
-        <>
-          <Timer time={this.state.time} />
-          <PlayerList gameId={this.props.gameId} />
-          <div className="Game-answering-caption">your question:</div>
-          <GameInput inputType="answer" heading={this.state.question} gameId={this.props.gameId} username={this.props.username} />
-          <Chat gameId={this.props.gameId} />
-        </>
-      );
-    } else if (this.state.stage === "showdown"){
-      gameScreen = (
-        <>
-          <Showdown
-            answerer={this.state.answerer}
-            question={this.state.question}
-            answer={this.state.answer}
-            asker={this.state.asker}
-          />
-        </>
-      );
-    } else {
+    console.log("rerendering; state is", this.state);
+    console.log("in particular, this.state.time =", this.state.time);
+
+    /*if (!this.state.stage === "asking"){
       return (<div className="Game-loading"><div>loading...</div></div>)
-    }
+    }*/
 
     return (
       <div className="Game-container">
-        <Timer time={this.state.time || 10} />
+        <Timer time={this.state.time} lag={this.lag || 0} key={Date.now()}/>
         <PlayerList gameId={this.props.gameId} />
-        <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
+        {
+          this.state.stage === "ask" ?
+            <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
+          :
+            this.state.stage === "answer" ?
+              <GameInput inputType="answer" heading={this.state.question} gameId={this.props.gameId} username={this.props.username}/>
+            :
+              this.state.stage === "pending" ?
+                <div className="Game-pending-caption">
+                  <div>
+                  { this.state.role == "answerer" ?
+                  "people are thinking of what to ask you" :
+                  `waiting for ${this.state.answerer} to answer`}
+                  </div>
+                </div>
+              : // showdown
+                <Showdown
+                  answerer={this.state.answerer}
+                  question={this.state.question}
+                  answer={this.state.answer}
+                  asker={this.state.asker}
+                />
+        }
         <Chat gameId={this.props.gameId} username={this.props.username} />
       </div>
     );
