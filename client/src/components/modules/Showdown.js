@@ -27,8 +27,8 @@ class Showdown extends Component {
 
     setTimeout(() => {
       this.questionRef.current.textContent = this.props.question;
-      this.askerRef.current.textContent = this.props.asker == null ? "" : `(asked by ${this.props.asker})`;
-    }, 3000);
+      this.askerRef.current.textContent = this.props.asker == null ? " " : `(asked by ${this.props.asker})`;
+    }, 3500);
   }
     
 
@@ -39,11 +39,14 @@ class Showdown extends Component {
           {`${this.props.answerer} answered:`}
         </div>
         <div className="Showdown-answer" ref={this.answerRef}>
+          &nbsp;
         </div>
         <div className="Showdown-question-caption" >the question was</div>
-        <div className="Showdown-question" ref={this.questionRef}>
+        <div className={`Showdown-question ${this.props.question === "[REDACTED]" ? "redacted" : ""}`} ref={this.questionRef}>
+          &nbsp;
         </div>
         <div className="Showdown-asker" ref={this.askerRef}>
+          &nbsp;
         </div>
       </div>
     );

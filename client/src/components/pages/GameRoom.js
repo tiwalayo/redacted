@@ -78,7 +78,9 @@ class GameRoom extends Component {
     })
 
     socket.on("gameStart", () => {
-      this.setState({started: true});
+      this.props.location.state = null;
+      this.override = true;
+      this.setState({started: true, displayLoad: false});
       console.log("starting game clientside")
     });
   }
@@ -87,7 +89,7 @@ class GameRoom extends Component {
 
   render() {
 
-    if (this.state.displayLoad && !this.state.started){
+    if (this.state.displayLoad && !this.state.started && !this.override){
       console.log(this.state.displayLoad, !this.state.started);
       return (<div className="Game-loading"><div>loading...</div></div>)
     }

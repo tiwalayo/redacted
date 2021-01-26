@@ -7,5 +7,17 @@
   color: var(--softwhite);
   text-align: center;
   overflow-wrap: break-word;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Showdown-question {
+  font-size: larger;
+}
+
+.redacted {
+  font-weight: bold;
 }
 

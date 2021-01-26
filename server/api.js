@@ -47,10 +47,11 @@ router.get("/amigoog", (req, res) => {
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   console.log(`socket initiated. hi ${req.body.socketid} / ${req.user._id}`);
+  let result = null;
   if (req.user){
-    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+     result = socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   }
-  res.send({});
+  res.send({ok: result});
 });
 
 // |------------------------------|

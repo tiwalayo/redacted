@@ -30,6 +30,7 @@ function message(data){
  *    username: this.props.username
  *    uid: hostId
  *    started:true
+ *    answerer: 
  */
 
 function questionSubmit(data){
@@ -44,7 +45,6 @@ function questionSubmit(data){
     });
 
     if (rs.getMembers(gameId).length-1 <= g.questions.length){
-      g.ended = true;
       console.log(`[${gameId}] everyone answered`);
       clearTimeout(g.qTimeout);
       answerStage(gameId, socketManager);
@@ -78,6 +78,7 @@ questionStage = (gameId, smm) => {
   }
 
   let members = rs.getMembers(gameId);
+  console.log(`[${gameId}] members`, members)
   console.log(`[${gameId}] choosing answerer from ${members.length} members`);
 
   let answerer = members[Math.floor(Math.random() * members.length)];
@@ -88,6 +89,11 @@ questionStage = (gameId, smm) => {
   g.timeout = Date.now() + parseInt(g.qTime) * 1000;
   g.expecting = "questionSubmit";
   g.questions = Array();
+
+  if (g.dcFlag || !answererSocket){
+    g.dcFlag = false;
+    questionStage(gameId, socketManager);
+  } else {
 
   console.log(`[${gameId}] answerer is ${answerer.username}. broadcasting 'ask' prompts.`);
   answererSocket.to(gameId).emit("asking", {
@@ -104,11 +110,11 @@ questionStage = (gameId, smm) => {
 
   console.log(Date(), `[${gameId}] starting ${g.qTime}s question timer`)
   g.qTimeout = setTimeout(() => {
-    if (!g.ended){
-      console.log(Date(), 'times up for questions');
-      answerStage(gameId, socketManager);
-    }
+    console.log(Date(), 'times up for questions');
+    answerStage(gameId, socketManager);
   }, parseInt(g.qTime)*1000);
+
+  }  
 }
 
 
@@ -126,6 +132,7 @@ answerStage = (gameId, smm) => {
 
   if (!(g.questions && g.questions.length)){
     console.log(`[${gameId}] no questions found, returning to questionStage`);
+    io.in(gameId).emit("notice", "nobody asked a question");
     questionStage(gameId, socketManager);
   }
   else {
@@ -140,6 +147,11 @@ answerStage = (gameId, smm) => {
     g.expecting = "answerSubmit";
     g.question = question;
     g.asker = asker;
+    
+    if (g.dcFlag || !answererSocket){
+      g.dcFlag = false;
+      questionStage(gameId, socketManager);
+    } else {
 
     console.log(`[${gameId}] telling room to wait for ${answerer.username}'s answer`);
     answererSocket.to(gameId).emit("pending", {
@@ -157,22 +169,22 @@ answerStage = (gameId, smm) => {
     console.log(Date(), `starting ${g.aTime}s answer timer`)
     g.aTimeout = setTimeout(() => {
       console.log(Date(), `times up for answering`)
-      io.in(gameId).emit("failedToAnswer", g.answerer.username);
+      io.in(gameId).emit("notice", `${g.answerer.username} failed to answer in time`);
       console.log(`[${gameId}] ${g.answerer.username} failed to answer`);
       questionStage(gameId, socketManager);
     }, parseInt(g.aTime)*1000);  
 
+    }
   }
 }
 
 showdownStage = (gameId, smm) => {
-  console.log("showdown time")
+  console.log(`[${gameId}] showdown time`)
   let g = rs.getGame(gameId);
 
   if (!g){
-    return false;
+    console.log(`[${gameId}] somehow no game when trying to start answer stage`);
   }
-  g.ended = false;
 
   let answerer = g.answerer;
   let asker = g.asker;
@@ -192,14 +204,14 @@ showdownStage = (gameId, smm) => {
     asker = null;
   }
 
-  answerer = answerer.id;
+  answerer = answerer.username;
   io.in(gameId).emit("showdown", {
     answerer, asker, question, answer
   });
 
   setTimeout(() => {
     questionStage(gameId, smm);
-  }, 7.5*1000);
+  }, 9*1000);
 
 }
 

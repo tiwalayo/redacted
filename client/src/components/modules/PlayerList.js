@@ -14,7 +14,7 @@ class PlayerList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      attendees: []
+      attendees: this.props.attendees
     };
   }
 
