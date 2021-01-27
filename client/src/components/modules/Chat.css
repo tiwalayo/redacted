@@ -14,6 +14,7 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   padding-top: 6px;
+  word-break: break-all;
 }
 
 .Chat-send {

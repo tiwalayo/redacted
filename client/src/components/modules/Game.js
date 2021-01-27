@@ -116,7 +116,7 @@ class Game extends Component {
       <>
       <div className="Game-container">
         <Timer time={this.state.time} lag={this.lag || 0} key={Date.now()}/>
-        <PlayerList attendees={this.props.attendees} />
+        <PlayerList attendees={this.props.attendees} callback={this.props.callback}/>
         {
           this.state.stage === "ask" ?
             <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
@@ -140,7 +140,7 @@ class Game extends Component {
                     asker={this.state.asker}
                   />
                 :
-                  <div className="Game-default"></div>
+                <div className="Game-default"><div>waiting for next round</div></div>
         }
         <Chat gameId={this.props.gameId} username={this.props.username} />
       </div>

@@ -91,3 +91,7 @@ form > div {
 
   margin-top: 5vh;
 }
+
+#SetupMenu-reveal {
+  margin: 0 auto;
+}
