@@ -44,7 +44,7 @@ class Homepage extends Component {
       <>
         <Header visible={false} animate={false} />
         <div className="Homepage-container">
-          <div className="Homepage-h1-container"><h1 className="centerheader">paranoia</h1></div>
+          <div className="Homepage-h1-container"><h1 className="centerheader">[redacted]</h1></div>
           <HomepageInput defaultText="type a username" buttonText="create room" onSubmit={this.openOptions}/>
         </div>
       </>
@@ -53,7 +53,7 @@ class Homepage extends Component {
         <Header visible={true} animate={true} left={false}/>
         <div className="Homepage-container">
           <div className="Homepage-h1-container">
-            <h1 className="centerheader animate__animated animate__fadeOut">paranoia</h1>
+            <h1 className="centerheader animate__animated animate__fadeOut">[redacted]</h1>
             {attendeeList}
           </div>
           <div className="Homepage-menulist-container">
