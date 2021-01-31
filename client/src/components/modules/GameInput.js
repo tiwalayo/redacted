@@ -19,6 +19,7 @@ class GameInput extends Component {
     super(props);
     // Initialize Default State
     this.state = {value: "", readOnly: false};
+    this.inputRef = React.createRef();
   }
 
   handleChange = (event) => {
@@ -60,8 +61,8 @@ class GameInput extends Component {
   }
 
   componentDidMount(){
+    this.inputRef.current.focus();
   }
-
 
   render() {
     return (
@@ -81,6 +82,7 @@ class GameInput extends Component {
           className="GameInput-input"
           onKeyDown={this._handleKeyDown}
           readOnly={this.state.readOnly}
+          ref={this.inputRef}
         />
       </div>
     );

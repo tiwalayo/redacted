@@ -15,7 +15,11 @@
 */
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:wght@100;400&display=swap");
+/*@font-face {
+  font-family: 'Avenir';
+  src: url('./fonts/avenir-next-medium.woff2') format('woff2');
+}*/
 
 :root {
   --primary: #484848;
@@ -44,6 +48,15 @@
 
 }
 
+body,html {
+    margin: 0;
+    padding: 0;
+}
+* {
+    box-sizing: border-box;
+}
+
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -52,7 +65,7 @@ a {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Avenir", sans-serif;
   font-weight: 300;
 }
 

@@ -27,8 +27,10 @@ class Homepage extends Component {
   componentDidMount = () => {
     // remember -- api calls go here!
     socket.on("attendees", (attendees) => {
-      this.setState({attendees: attendees});
-    })
+      //this.setState({attendees: attendees});
+      this.setState({attendees: ["tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", ]});
+    });
+    
   }
 
   componentWillUnmount = () => {
@@ -42,9 +44,9 @@ class Homepage extends Component {
 
     return this.state.username === null ? (
       <>
-        <Header visible={false} animate={false} />
+        <Header visible={false} animate={false} left={false} />
         <div className="Homepage-container">
-          <div className="Homepage-h1-container"><h1 className="centerheader">[redacted]</h1></div>
+          <div id="centerheader" className="Homepage-h1-container"><h1 className="centerheader">[redacted]</h1></div>
           <HomepageInput defaultText="type a username" buttonText="create room" onSubmit={this.openOptions}/>
         </div>
       </>
@@ -52,7 +54,7 @@ class Homepage extends Component {
       <>
         <Header visible={true} animate={true} left={false}/>
         <div className="Homepage-container">
-          <div className="Homepage-h1-container">
+          <div id="centerheader" className="Homepage-h1-container shrunk">
             <h1 className="centerheader animate__animated animate__fadeOut">[redacted]</h1>
             {attendeeList}
           </div>
