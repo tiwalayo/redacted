@@ -15,11 +15,9 @@ class Timer extends Component {
       time: this.props.time,
     };
     this.on = false;
-    console.log("timer init. state:", this.state);
   }
 
   startTimer = (duration) => {
-    console.log("lag", this.props.lag)
     if (duration > 0){
       this.on = true;
       let timer = duration * 1000 + this.props.lag;
@@ -45,7 +43,6 @@ class Timer extends Component {
   }*/
 
   render() {
-      console.log("[timer] rerender w time", this.state.time);
     return (
       <div className="Timer-container">
         <div className="Timer-value">{this.state.time}</div>

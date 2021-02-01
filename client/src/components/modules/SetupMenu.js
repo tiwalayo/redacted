@@ -121,7 +121,7 @@ class SetupMenu extends Component {
           </div>
         </form>
       </div>
-      {!this.state.gameId ? "" : (<button type="button" className="SetupMenu-submit-button" onClick={this.startGame}>start game</button>)}
+      {!this.state.gameId ? "" : (<button type="button" className={`SetupMenu-submit-button ${this.props.attendees.length < 2 ? "notready" : ""}`} onClick={this.startGame}>start game</button>)}
     </>);
   }
 }

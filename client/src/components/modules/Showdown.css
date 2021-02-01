@@ -21,3 +21,14 @@
   font-weight: bold;
 }
 
+.Showdown-token-button {
+  background-color: var(--themeyellow);
+  border: none;
+  color: var(--darkgrey);
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 4px;
+}

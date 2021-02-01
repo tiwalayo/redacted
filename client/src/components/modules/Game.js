@@ -14,7 +14,7 @@ import NoticeBox from "../modules/NoticeBox.js"
 import "../../utilities.css";
 import "./Game.css";
 
-/* Lists joined users
+/* Game!
  *
  * Proptypes
  * @param {[string]} attendees
@@ -87,7 +87,7 @@ class Game extends Component {
       var divid = Date.now();
       div.setAttribute("id", `p${divid}`);
       ReactDOM.render(
-         <NoticeBox container={div} message={message} color="red" />,
+         <NoticeBox container={div} message={message.message} color={message.color} />,
          document.body.appendChild(div)
       );
       setTimeout(() => {
@@ -97,6 +97,11 @@ class Game extends Component {
 
     })
 
+    socket.on("tokenNotify", (data) => {
+      this.hasToken = data.hasToken;
+      console.log('token status:', this.hasToken);
+    });
+
     socket.on("404", () => {
       navigate("/");
     });
@@ -105,9 +110,6 @@ class Game extends Component {
 
 
   render() {
-    console.log("rerendering; state is", this.state);
-    console.log("in particular, this.state.time =", this.state.time);
-
     /*if (!this.state.stage === "asking"){
       return (<div className="Game-loading"><div>loading...</div></div>)
     }*/
@@ -134,10 +136,12 @@ class Game extends Component {
                 </div>
               : this.state.stage === "showdown" ?
                   <Showdown
+                    gameId={this.props.gameId}
                     answerer={this.state.answerer}
                     question={this.state.question}
                     answer={this.state.answer}
                     asker={this.state.asker}
+                    hasToken={this.hasToken}
                   />
                 :
                 <div className="Game-default"><div>waiting for next round</div></div>

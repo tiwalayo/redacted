@@ -27,8 +27,9 @@ class Homepage extends Component {
   componentDidMount = () => {
     // remember -- api calls go here!
     socket.on("attendees", (attendees) => {
-      //this.setState({attendees: attendees});
-      this.setState({attendees: ["tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", ]});
+      console.log(attendees);
+      this.setState({attendees: attendees.attendees});
+      //this.setState({attendees: ["tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", "tiwa", ]});
     });
     
   }

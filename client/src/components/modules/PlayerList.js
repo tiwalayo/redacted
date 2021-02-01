@@ -25,7 +25,13 @@ class PlayerList extends Component {
     });
 
     socket.on("attendees", (attendees) => {
-      this.setState({attendees});
+
+      if (attendees.tokens){
+        this.setState({attendees: attendees.attendees, tokens: attendees.tokens});
+      }
+      else {
+        this.setState({attendees: attendees.attendees});
+      }  
     });
   }
 
@@ -34,9 +40,16 @@ class PlayerList extends Component {
     return (
       <div className="PlayerList-container">
         <div className="PlayerList-gridcontainer">
-          {this.state.attendees.map((attendee, i) => (
-            <div className="PlayerList-attendee" key={i}>{attendee}</div>
-          ))}
+          {
+            this.state.tokens ?
+              this.state.attendees.map((attendee, i) => (
+              <div className={`PlayerList-attendee ${this.state.tokens[i] ? "token" : ""}`} key={i}>{attendee}</div>
+              ))
+            :
+              this.state.attendees.map((attendee, i) => (
+              <div className="PlayerList-attendee" key={i}>{attendee}</div>
+              ))
+          }
         </div>
       </div>
     );
