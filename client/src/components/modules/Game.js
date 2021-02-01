@@ -10,6 +10,7 @@ import Showdown from "../modules/Showdown.js"
 import GameInput from "../modules/GameInput.js"
 import Chat from "../modules/Chat.js"
 import NoticeBox from "../modules/NoticeBox.js"
+import MainMessage from "../modules/MainMessage.js"
 
 import "../../utilities.css";
 import "./Game.css";
@@ -82,6 +83,15 @@ class Game extends Component {
       });
     });
 
+    socket.on("mainmessage", (data) => {
+      this.setState({
+        stage: "mainmessage",
+        question: data.question,
+        answerer: data.answerer,
+        time: 0
+      });
+    });
+
     socket.on("notice", (message) => {
       var div = document.createElement('div');
       var divid = Date.now();
@@ -144,7 +154,10 @@ class Game extends Component {
                     hasToken={this.hasToken}
                   />
                 :
-                <div className="Game-default"><div>waiting for next round</div></div>
+                  this.state.stage === "mainmessage" ?
+                    <MainMessage question={this.state.question} answerer={this.state.answerer} />
+                  :
+                    <div className="Game-default"><div>waiting for next round</div></div>
         }
         <Chat gameId={this.props.gameId} username={this.props.username} />
       </div>
