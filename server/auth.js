@@ -66,9 +66,6 @@ function assignUID(req, res, next) {
   if (!req.session.user){
     req.session.user = {_id: nanoid()};
   }
-  if (req.session.goog){
-    console.log("we've got a googler")
-  }
   console.log(`assigned ${req.session.user._id}`);
   next();
 }

@@ -29,6 +29,7 @@ class GameRoom extends Component {
       console.log("inherited", this.props.location.state);
       let addState = {username: this.props.location.state.username, displayLoad: true};
       this.state = {...this.state, ...addState};
+      this.props.location.state = null;
     }
 
     if (this.props.options){
@@ -88,6 +89,12 @@ class GameRoom extends Component {
       this.setState({started: true, displayLoad: false});
       console.log("starting game clientside")
     });
+    
+    socket.on("404", () => {
+      console.log("received 404")
+      navigate("/");
+    });
+
   }
 
 

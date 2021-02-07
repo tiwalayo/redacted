@@ -112,9 +112,6 @@ class Game extends Component {
       console.log('token status:', this.hasToken);
     });
 
-    socket.on("404", () => {
-      navigate("/");
-    });
   }
 
 
