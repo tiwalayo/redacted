@@ -3,15 +3,19 @@
   color: var(--lightgrey);
   font-size: 9vh;
   white-space: nowrap;
-  width: 100%;
+  width: 90vw;
   margin: 0;
-  margin-top: 2vh;
+  margin-top: 1vh;
   margin-bottom: 2vh;
 }
 
 .left {
   text-align: left;
   margin-left: 3vw;
+}
+
+.noleft {
+  margin: 0 auto;
 }
 
 .invisible {

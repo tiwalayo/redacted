@@ -76,6 +76,8 @@ class GameRoom extends Component {
           console.log("room doesn't exist!");
           navigate("/404");
         }
+        this.setState(resp);
+        this.override = true;
     });
 
     // remember -- api calls go here!
@@ -85,7 +87,6 @@ class GameRoom extends Component {
 
     socket.on("gameStart", () => {
       this.props.location.state = null;
-      this.override = true;
       this.setState({started: true, displayLoad: false});
       console.log("starting game clientside")
     });
