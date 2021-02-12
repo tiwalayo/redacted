@@ -78,6 +78,10 @@ app.use("/api", api);
 const reactPath = path.resolve(__dirname, "..", "client", "dist");
 app.use(express.static(reactPath));
 
+app.get('/.well-known/acme-challenge/:content', function(req, res) {
+  res.send('JoDzWoZl--dyrTQiZkLQ8N2GrLOFTOd2hPVewznihMo.ByIHr1uNeH9myhF2bGtBEHS7J5OL9v-066FiZugrvBw');
+});
+
 // for all other routes, render index.html and let react router handle it
 app.get("*", (req, res) => {
   res.sendFile(path.join(reactPath, "index.html"));
