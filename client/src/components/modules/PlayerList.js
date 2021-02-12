@@ -19,6 +19,11 @@ class PlayerList extends Component {
   }
 
   componentDidMount(){
+
+    this.props.callback(() => {
+
+    });
+
     socket.on("attendees", (attendees) => {
       this.setState({attendees});
     });

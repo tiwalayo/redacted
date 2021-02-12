@@ -40,8 +40,15 @@ const addMember = (id, user) => {
 }
 
 const removeMember = (id, user) => {
+  console.log("deleting", user);
   let names = idToNameMap.get(id);
-  if (names) idToNameMap.set(id, names.filter((u) => { return !(u.id === user.id && u.username === user.username) } ));
+  if (names){
+    idToNameMap.set(id, names.filter((u) => { return !(u.id === user._id) } ));
+    console.log(`[${id}] user deletion success`);
+  }
+  else {
+    console.log(`deletion failure: could not find users associated w ${id}`);
+  }
 }
 
 const roomExists = (id) => {

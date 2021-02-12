@@ -63,4 +63,12 @@
   grid-area: main;
   background-color: var(--darkgrey);
   border-radius: 4px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  color: var(--softwhite);
+}
+
+.Game-default > div {
+  margin: 0 auto;
 }

@@ -41,21 +41,23 @@ module.exports = {
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
       sidToSocketMap.set(socket.id, socket);
-      socket.on("disconnect", (reason) => {
+      socket.on("disconnecting", (reason) => {
         console.log(`socket has disconnected ${socket.id}`);
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
         sidToSocketMap.delete(socket.id);
 
         let gameId = [...(socket.rooms)].filter((e) => { return e !== socket.id; })[0];
+        console.log(socket.rooms, gameId);
         let g = rs.getGame(gameId);
         if (g && g.started){
-          console.log(`[@] taking ${gameId} apart and kicking users`)
           rs.removeMember(gameId, user);
+          io.in(gameId).emit('attendees', rs.getMembers(gameId).map((m) => m.username));
           if (_.isEqual(g.answerer, user)){
             g.dcFlag = true;
           }
           if (rs.getMembers(gameId).length < 2){
+            console.log(`[@] taking ${gameId} apart and kicking users`)
             rs.removeRoom(gameId);
             io.in(gameId).emit("404", {redirect: "/"});
           }

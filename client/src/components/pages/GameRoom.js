@@ -63,6 +63,11 @@ class GameRoom extends Component {
     });
   }
 
+  stopListening = (callback) => {
+    socket.off("attendees");
+    callback();
+  }
+
   componentDidMount() {
     console.log("gameroom mounted");
     get("/api/verify", {gameId: this.props.gameId}).then( (resp) => {
@@ -74,7 +79,7 @@ class GameRoom extends Component {
 
     // remember -- api calls go here!
     socket.on("attendees", (attendees) => {
-      this.setState({attendees: attendees});
+      this.setState({attendees: attendees}); //causes game (and thus Timer) to rerender
     })
 
     socket.on("gameStart", () => {
@@ -105,7 +110,7 @@ class GameRoom extends Component {
 
     if (this.state.started){
       toShow = (
-        <Game gameId={this.props.gameId} username={this.state.username} attendees={this.state.attendees}/>
+        <Game gameId={this.props.gameId} username={this.state.username} attendees={this.state.attendees} callback={this.stopListening}/>
       )
     } else {
       toShow = (

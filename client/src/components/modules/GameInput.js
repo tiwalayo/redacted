@@ -18,7 +18,7 @@ class GameInput extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {value: ""};
+    this.state = {value: "", readOnly: false};
   }
 
   handleChange = (event) => {
@@ -54,7 +54,7 @@ class GameInput extends Component {
         })
       }
 
-      this.setState({value: ""});
+      this.setState({value: "", readOnly: true});
 
     }
   }
@@ -75,11 +75,12 @@ class GameInput extends Component {
         </div>
         <textarea
           type="text"
-          placeholder={`${this.props.inputType} here`}
+          placeholder={this.state.readOnly ? `${this.props.inputType}ed!` : `${this.props.inputType} here`}
           value={this.state.value}
           onChange={this.handleChange}
           className="GameInput-input"
           onKeyDown={this._handleKeyDown}
+          readOnly={this.state.readOnly}
         />
       </div>
     );
