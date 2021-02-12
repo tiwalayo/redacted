@@ -68,7 +68,7 @@ class GameInput extends Component {
       <div className="GameInput-container">
         <div className="GameInput-heading">
           {this.props.inputType === "answer" ?
-            "you were asked: " (<b>{this.props.heading}</b>)
+            <> you were asked: <b>&nbsp; {this.props.heading}</b> </>
           :
             this.props.heading
           }

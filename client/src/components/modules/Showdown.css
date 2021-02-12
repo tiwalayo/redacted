@@ -1,0 +1,11 @@
+.Showdown-container {
+  grid-area: main;
+  background-color: var(--darkgrey);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--softwhite);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+

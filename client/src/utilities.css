@@ -44,6 +44,11 @@
 
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;

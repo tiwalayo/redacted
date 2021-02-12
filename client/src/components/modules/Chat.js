@@ -60,8 +60,8 @@ class Chat extends Component {
       <div className="Chat-container">
         <div className="Chat-gridcontainer">
           {
-            this.state.messages.map((msg) => (
-              <div className="Chat-message"><b>{`${msg.username}: `}</b> {`${msg.message}`}</div>
+            this.state.messages.map((msg, i) => (
+              <div className="Chat-message" key={i}><b>{`${msg.username}: `}</b> {`${msg.message}`}</div>
             ))
           }
         </div>

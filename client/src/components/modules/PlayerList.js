@@ -29,8 +29,8 @@ class PlayerList extends Component {
     return (
       <div className="PlayerList-container">
         <div className="PlayerList-gridcontainer">
-          {this.state.attendees.map((attendee) => (
-            <div class="PlayerList-attendee">{attendee}</div>
+          {this.state.attendees.map((attendee, i) => (
+            <div className="PlayerList-attendee" key={i}>{attendee}</div>
           ))}
         </div>
       </div>

@@ -10,6 +10,11 @@
   font-size: 5vh;
 }
 
+.left {
+  text-align: left;
+  margin-left: 3vw;
+}
+
 .invisible {
   visibility: hidden;
 }
