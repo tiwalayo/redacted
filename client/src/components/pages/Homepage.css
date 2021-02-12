@@ -1,5 +1,4 @@
 .Homepage-container {
-    height: calc(99vh - 5vh - 1vh - 2vh);
     width: 100vw;
 }
 
@@ -32,4 +31,9 @@ h1.centerheader {
 
 .Homepage-menulist-container {
   text-align: center;
+}
+
+.shrunk {
+  margin-bottom: -20vh;
+  visibility: hidden;
 }

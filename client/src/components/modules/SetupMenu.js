@@ -16,10 +16,10 @@ class SetupMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: true,
+      checked: false,
       'SetupMenu-factor': "50",
-      'SetupMenu-qTime': "20",
-      'SetupMenu-aTime': "15",
+      'SetupMenu-qTime': "35",
+      'SetupMenu-aTime': "30",
     };
 
     this.hintText = React.createRef();
@@ -88,7 +88,7 @@ class SetupMenu extends Component {
             <input className="noslider" type="range" />
           </div>
           <div className="SetupMenu-entry">
-            <label htmlFor="factor">Paranoia factor</label>
+            <label htmlFor="factor">Paranoia factor <span className="info" data-tooltip="the higher the factor, the more often questions get redacted.">[?]</span></label>
             <input type="range" id="SetupMenu-factor" name="factor" min="0" max="100" value={this.state["SetupMenu-factor"]} onChange={this.handleChange} />
             <div className="SetupMenu-entry-caption invisible">
               {`${this.state["SetupMenu-factor"]}s`}
