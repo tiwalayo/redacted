@@ -3,8 +3,17 @@
     width: 100vw;
 }
 
+.Homepage-h1-container {
+    display: flex;
+    align-items: flex-end;
+    height: 50vh;
+}
+
 h1 {
   text-align: center;
   color: var(--lightgrey);
-  font-size: 15vh;
+  font-size: 10vw;
+  white-space: nowrap;
+  width:100%;
+  margin: 0;
 }

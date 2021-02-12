@@ -18,7 +18,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 :root {
-  --primary: #396dff;
+  --primary: #484848;
   --primary--dim: #6987db;
   --darkgrey: #333333;
   --medgrey: #e0e0e0;
@@ -26,12 +26,15 @@
   --grey: #f7f7f7;
   --white: #fff;
 
+  --themered: #e95065;
+  --themeyellow: #e5c453;
+
   --xs: 4px;
   --s: 8px;
   --m: 16px;
   --l: 24px;
 
-  background-color: var(--darkgrey);
+  background-color: var(--primary);
 
 }
 

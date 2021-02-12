@@ -15,6 +15,7 @@ class HomepageInput extends Component {
     super(props);
     // Initialize Default State
     this.state = {value: ""};
+    this.inputRef = React.createRef();
   }
 
   handleChange = (event) => {
@@ -36,6 +37,10 @@ class HomepageInput extends Component {
     }
   }
 
+  componentDidMount(){
+    this.inputRef.current.focus();
+  }
+
   render() {
     return (
       <>
@@ -46,6 +51,7 @@ class HomepageInput extends Component {
           onChange={this.handleChange}
           onKeyDown={this._handleKeyDown}
           className="HomepageInput-input"
+          ref={this.inputRef}
         />
         <button
           type="submit"
