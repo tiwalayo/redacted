@@ -37,7 +37,7 @@ class Header extends Component {
   render() {
     return <h1 className={`Header-header ${this.state.left ? "left" : ""} ${this.state.visible ? "" : "invisible"} ${
       this.state.animate ? "animate__animated animate__fadeIn" : ""
-    }`}><a href="/">paranoia</a></h1>
+    }`}><a href="/">[redacted]</a></h1>
   }
 }
 
