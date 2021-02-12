@@ -30,6 +30,7 @@
   margin-top: 1px;
   box-sizing: border-box;
   background-color: var(--softwhite);
+  outline: none;
 }
 
 .Chat-send-input:focus {

@@ -39,6 +39,11 @@ const addMember = (id, user) => {
   idToNameMap.get(id).push({username: user.username, id: user.id});
 }
 
+const removeMember = (id, user) => {
+  let names = idToNameMap.get(id);
+  if (names) idToNameMap.set(id, names.filter((u) => { return !(u.id === user.id && u.username === user.username) } ));
+}
+
 const roomExists = (id) => {
   return roomList.has(id);
 }
@@ -50,5 +55,6 @@ module.exports = {
   getMembers: getMembers,
   getGame: getGame,
   addMember: addMember,
-  roomExists: roomExists
+  roomExists: roomExists,
+  removeMember: removeMember
 };

@@ -1,5 +1,8 @@
+var _ = require('underscore');
+
 let io;
-let ph = require("./paranoiaHandler.js")
+let ph = require("./paranoiaHandler.js");
+let rs = require("./room-service");
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
@@ -16,8 +19,9 @@ const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
   if (oldSocket && oldSocket.id !== socket.id) {
     // there was an old tab open for this user, force it to disconnect
-    oldSocket.disconnect();
-    delete socketToUserMap[oldSocket.id];
+    //oldSocket.disconnect();
+    //delete socketToUserMap[oldSocket.id];
+    return false;
   }
 
   userToSocketMap[user._id] = socket;
@@ -38,9 +42,24 @@ module.exports = {
       console.log(`socket has connected ${socket.id}`);
       sidToSocketMap.set(socket.id, socket);
       socket.on("disconnect", (reason) => {
+        console.log(`socket has disconnected ${socket.id}`);
         const user = getUserFromSocketID(socket.id);
-        removeUser(user, socket.id);
+        removeUser(user, socket);
         sidToSocketMap.delete(socket.id);
+
+        let gameId = [...(socket.rooms)].filter((e) => { return e !== socket.id; })[0];
+        let g = rs.getGame(gameId);
+        if (g && g.started){
+          console.log(`[@] taking ${gameId} apart and kicking users`)
+          rs.removeMember(gameId, user);
+          if (_.isEqual(g.answerer, user)){
+            g.dcFlag = true;
+          }
+          if (rs.getMembers(gameId).length < 2){
+            rs.removeRoom(gameId);
+            io.in(gameId).emit("404", {redirect: "/"});
+          }
+        }
       });
 
       ph.init(io, socket);

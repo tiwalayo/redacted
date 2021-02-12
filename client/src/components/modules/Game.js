@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
 import { get } from "../../utilities.js";
+import { navigate } from "@reach/router";
+import ReactDOM from 'react-dom';
 
 import Timer from "../modules/Timer.js"
 import PlayerList from "../modules/PlayerList.js"
 import Showdown from "../modules/Showdown.js"
 import GameInput from "../modules/GameInput.js"
 import Chat from "../modules/Chat.js"
+import NoticeBox from "../modules/NoticeBox.js"
 
 import "../../utilities.css";
 import "./Game.css";
@@ -75,9 +78,30 @@ class Game extends Component {
         question: data.question,
         answer: data.answer,
         asker: data.asker,
+        time: 0
       });
     });
+
+    socket.on("notice", (message) => {
+      var div = document.createElement('div');
+      var divid = Date.now();
+      div.setAttribute("id", `p${divid}`);
+      ReactDOM.render(
+         <NoticeBox container={div} message={message} color="red" />,
+         document.body.appendChild(div)
+      );
+      setTimeout(() => {
+        var elem = document.querySelector(`#p${divid}`);
+        elem.parentNode.removeChild(elem);
+      }, 10000);
+
+    })
+
+    socket.on("404", () => {
+      navigate("/");
+    });
   }
+
 
 
   render() {
@@ -89,9 +113,10 @@ class Game extends Component {
     }*/
 
     return (
+      <>
       <div className="Game-container">
         <Timer time={this.state.time} lag={this.lag || 0} key={Date.now()}/>
-        <PlayerList gameId={this.props.gameId} />
+        <PlayerList attendees={this.props.attendees} />
         {
           this.state.stage === "ask" ?
             <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
@@ -107,16 +132,19 @@ class Game extends Component {
                   `waiting for ${this.state.answerer} to answer`}
                   </div>
                 </div>
-              : // showdown
-                <Showdown
-                  answerer={this.state.answerer}
-                  question={this.state.question}
-                  answer={this.state.answer}
-                  asker={this.state.asker}
-                />
+              : this.state.stage === "showdown" ?
+                  <Showdown
+                    answerer={this.state.answerer}
+                    question={this.state.question}
+                    answer={this.state.answer}
+                    asker={this.state.asker}
+                  />
+                :
+                  <div className="Game-default"></div>
         }
         <Chat gameId={this.props.gameId} username={this.props.username} />
       </div>
+      </>
     );
   }
 }

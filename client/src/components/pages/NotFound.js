@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import "./NotFound.css";
+
 class NotFound extends Component {
   constructor(props) {
     super(props);
@@ -7,10 +9,7 @@ class NotFound extends Component {
 
   render() {
     return (
-      <div>
-        <h1>404 Not Found</h1>
-        <p>The page you requested couldn't be found.</p>
-      </div>
+      <div><h1>[REDACTED]</h1><p>whatever you're looking for, we couldn't find it.</p></div>
     );
   }
 }
