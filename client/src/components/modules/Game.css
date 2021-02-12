@@ -23,7 +23,7 @@
     "attendees main chat";
 
   width: 95vw;
-  height: calc(95vh - 5vh - 2vh - 1vh);
+  height: calc(95vh - 9vh - 2vh - 1vh);
   margin: 0 auto;
   padding: 16px;
   grid-gap: 1rem;
