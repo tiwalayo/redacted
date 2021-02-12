@@ -1,0 +1,18 @@
+.MainMessage-container {
+  grid-area: main;
+  background-color: var(--darkgrey);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--softwhite);
+  text-align: center;
+  overflow-wrap: break-word;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.MainMessage-question {
+  font-size: larger;
+}
