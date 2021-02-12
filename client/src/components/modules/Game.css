@@ -16,7 +16,7 @@
 
 .Game-container {
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr 3fr;
   grid-template-areas: 
     "timer main chat"
