@@ -27,7 +27,7 @@ class Showdown extends Component {
 
     setTimeout(() => {
       this.questionRef.current.textContent = this.props.question;
-      this.askerRef.current.textContent = this.props.asker == null ? "" : this.props.asker;
+      this.askerRef.current.textContent = this.props.asker == null ? "" : `(asked by ${this.props.asker})`;
     }, 3000);
   }
     

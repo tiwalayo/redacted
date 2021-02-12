@@ -71,7 +71,7 @@ class Game extends Component {
         <>
           <Timer time={this.state.time} />
           <PlayerList gameId={this.props.gameId} />
-          <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} />
+          <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
           <Chat gameId={this.props.gameId} />
         </>
       );
@@ -83,7 +83,7 @@ class Game extends Component {
           <div className="Game-pending-caption">
             { this.state.role == "answerer" ?
             "people are thinking of what to ask you" :
-            `waiting for ${this.state.answerer}`}
+            `waiting for ${this.state.answerer} to answer`}
           </div>
           <Chat gameId={this.props.gameId} />
         </>
@@ -94,7 +94,7 @@ class Game extends Component {
           <Timer time={this.state.time} />
           <PlayerList gameId={this.props.gameId} />
           <div className="Game-answering-caption">your question:</div>
-          <GameInput inputType="answer" heading={this.state.question} gameId={this.props.gameId}/>
+          <GameInput inputType="answer" heading={this.state.question} gameId={this.props.gameId} username={this.props.username} />
           <Chat gameId={this.props.gameId} />
         </>
       );

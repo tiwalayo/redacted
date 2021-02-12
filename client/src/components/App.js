@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Homepage from "./pages/Homepage.js";
+import Skeleton from "./pages/Skeleton.js";
+import Profile from "./pages/Profile.js";
+
 
 import "../utilities.css";
 
@@ -35,6 +38,7 @@ class App extends Component {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
+      console.log("received", user);
       this.setState({ userId: user._id });
       post("/api/initsocket", { socketid: socket.id });
     });
@@ -52,6 +56,13 @@ class App extends Component {
           <Homepage
             path="/"
           />
+          <Skeleton
+            path="/login"
+            handleLogin={this.handleLogin}
+            handleLogout={this.handleLogout}
+            userId={false}
+          />
+          <Profile path="/profile" />
           <NotFound path="/404" /> 
           <GameRoom path="/:gameId" />
           <NotFound default />

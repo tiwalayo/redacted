@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
+import { post } from "../../utilities.js"
 
 import "../../utilities.css";
 import "./GameInput.css";
@@ -10,6 +11,7 @@ import "./GameInput.css";
  * @param {string} inputType
  * @param {string} heading 
  * @param {string} gameId
+ * @param {string} username
  */
 class GameInput extends Component {
 
@@ -33,12 +35,16 @@ class GameInput extends Component {
   };*/
 
   _handleKeyDown = (e) => {
+    console.log(this.state.value, this.props.inputType)
     if (e.key === 'Enter' && (/\S/.test(this.state.value))) {
       if (this.props.inputType == "ask"){
         socket.emit("questionSubmit", {
           gameId: this.props.gameId,
-          question: this.state.value
+          question: this.state.value,
+          asker: this.props.username
         })
+
+        post("/api/document", {question: this.state.value}).then(() => {});
       }
       if (this.props.inputType == "answer"){
         socket.emit("answerSubmit", {
