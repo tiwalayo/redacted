@@ -8,7 +8,7 @@ import "./NoticeBox.css";
  *
  * Proptypes
  * @param {string} message
- * @param {string} color (only "red" and "blue" supported)
+ * @param {string} color (only "red" "yellow" "blue" supported)
  */
 class NoticeBox extends Component {
   constructor(props) {

@@ -17,3 +17,7 @@
   margin: 6px 0;
 }
 
+.token {
+  color: var(--themeyellow);
+}
+

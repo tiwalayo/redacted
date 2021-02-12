@@ -31,3 +31,8 @@
   background-color: var(--themedarkblue);
   color: var(--themeblue);
 }
+
+.yellow {
+  background-color: var(--themedarkyellow);
+  color: var(--themeyellow);
+}

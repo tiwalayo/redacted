@@ -38,6 +38,9 @@ class Chat extends Component {
         message: this.state.value
       })
       this.setState({value: ""});
+
+      var elem = document.getElementById('Chat-gridcontainer');
+      elem.scrollTop = elem.scrollHeight;
     }
   };
 
@@ -58,7 +61,7 @@ class Chat extends Component {
   render() {
     return (
       <div className="Chat-container">
-        <div className="Chat-gridcontainer">
+        <div id="Chat-gridcontainer" className="Chat-gridcontainer">
           {
             this.state.messages.map((msg, i) => (
               <div className="Chat-message" key={i}><b>{`${msg.username}: `}</b> {`${msg.message}`}</div>

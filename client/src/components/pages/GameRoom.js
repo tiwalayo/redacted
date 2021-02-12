@@ -79,7 +79,7 @@ class GameRoom extends Component {
 
     // remember -- api calls go here!
     socket.on("attendees", (attendees) => {
-      this.setState({attendees: attendees}); //causes game (and thus Timer) to rerender
+      this.setState({attendees: attendees.attendees}); //causes game (and thus Timer) to rerender
     })
 
     socket.on("gameStart", () => {

@@ -96,6 +96,10 @@ form > div {
   border-radius: 4px;
 }
 
+.notready {
+  opacity: 0.2;
+}
+
 #SetupMenu-reveal {
   margin: 0 auto;
 }
