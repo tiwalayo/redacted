@@ -1,0 +1,19 @@
+.PlayerList-container {
+  grid-area: attendees;
+  text-align: center;
+  overflow-y: auto;
+  background-color: var(--darkgrey);
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--lightgrey);
+  transition: 0.4s;
+}
+
+.PlayerList-container:not(:hover){
+  opacity: 0.6;
+}
+
+.PlayerList-attendee {
+  margin: 6px 0;
+}
+

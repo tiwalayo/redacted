@@ -110,12 +110,15 @@ class Game extends Component {
         </>
       );
     } else {
-      return (<div>server is talking about stages of the game I don't recognize. something about {`${this.state.stage}`}</div>)
+      return (<div className="Game-loading"><div>loading...</div></div>)
     }
 
     return (
       <div className="Game-container">
-        {gameScreen}
+        <Timer time={this.state.time || 10} />
+        <PlayerList gameId={this.props.gameId} />
+        <GameInput inputType="ask" heading={`ask ${this.state.answerer} a question`} gameId={this.props.gameId} username={this.props.username}/>
+        <Chat gameId={this.props.gameId} username={this.props.username} />
       </div>
     );
   }

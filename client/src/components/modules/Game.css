@@ -1,0 +1,42 @@
+.Game-loading {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--darkgrey);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 10vh;
+  color: var(--softwhite);
+}
+
+.Game-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-rows: 1fr 3fr;
+  grid-template-areas: 
+    "timer main chat"
+    "attendees main chat";
+
+  width: 95vw;
+  height: calc(95vh - 5vh - 2vh - 1vh);
+  margin: 0 auto;
+  padding: 16px;
+  grid-gap: 1rem;
+}
+
+.Timer-container {
+  grid-area: timer;
+}
+
+.PlayerList-container {
+  grid-area: attendees;
+}
+
+.GameInput-container {
+  grid-area: main;
+}

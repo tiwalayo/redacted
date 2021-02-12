@@ -5,11 +5,20 @@ let sio;
 let s;
 
 exports.init = function(s_io, socket){
-  io = s_io;
+  sio = s_io;
   s = socket;
+
+  s.on("message", message);
 
   s.on("questionSubmit", questionSubmit);
   s.on("answerSubmit", answerSubmit);
+}
+
+function message(data){
+  sio.in(data.gameId).emit("messageUpdate", {
+    username: data.username,
+    message: data.message
+  })
 }
 
 

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { get } from "../../utilities.js"
 import ReactWordcloud from 'react-wordcloud';
 
+import Header from "../modules/Header.js"
+
 import "../../utilities.css";
 import "./Profile.css";
 ``
@@ -58,6 +60,7 @@ class Profile extends Component {
     console.log("state:", this.state.words)
     return (
       <>
+        <Header />
         <div className="Profile-container">
           <div className="Profile-header-container">
             <h3>your question-asking wordcloud</h3>

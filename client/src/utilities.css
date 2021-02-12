@@ -25,9 +25,15 @@
   --lightgrey: #f7f7f7;
   --grey: #f7f7f7;
   --white: #fff;
+  --softwhite: #d6d6d6;
 
   --themered: #e95065;
   --themeyellow: #e5c453;
+  --themeblue: #46bddf;
+  --themegreen: #52d273;
+
+  --themedarkblue: #495458;
+  --themedarkred: #58494c;
 
   --xs: 4px;
   --s: 8px;
