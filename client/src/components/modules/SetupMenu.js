@@ -20,6 +20,7 @@ class SetupMenu extends Component {
       'SetupMenu-factor': "50",
       'SetupMenu-qTime': "35",
       'SetupMenu-aTime': "30",
+      'SetupMenu-maxrounds': "4"
     };
 
     this.hintText = React.createRef();
@@ -44,10 +45,12 @@ class SetupMenu extends Component {
       username: this.props.username
     }).then((res) => {
       this.setState({
-        gameId: res.newId,
-        gameLink: `${host}/${res.newId}`
+       gameId: res.newId,
+       gameLink: `${host}/${res.newId}`
+      }, () => {
+        console.log("made it to pre-oncreate")
+        this.props.onCreate();
       });
-      this.props.onCreate();
     });
   }
 
@@ -60,6 +63,7 @@ class SetupMenu extends Component {
         factor: this.state["SetupMenu-factor"],
         qTime: this.state["SetupMenu-qTime"],
         aTime: this.state["SetupMenu-aTime"],
+        maxrounds: Math.min(Math.max(this.state["SetupMenu-maxrounds"], 1), 10),
         gameId: this.state.gameId,
         username: this.props.username
       }).then(() => {
@@ -106,6 +110,13 @@ class SetupMenu extends Component {
             <input type="range" id="SetupMenu-aTime" name="aTime" min="15" max="60" value={this.state["SetupMenu-aTime"]} onChange={this.handleChange} />
             <div className="SetupMenu-entry-caption">
               {`${this.state["SetupMenu-aTime"]}s`}
+            </div>
+          </div>
+          <div className="SetupMenu-entry">
+            <label htmlFor="maxrounds">Number of rounds</label>
+            <input type="range" id="SetupMenu-maxrounds" name="maxrounds" min="1" max="10" value={this.state["SetupMenu-maxrounds"]} onChange={this.handleChange} />
+            <div className="SetupMenu-entry-caption">
+              {`${this.state["SetupMenu-maxrounds"]}`}
             </div>
           </div>
           <div className="SetupMenu-submit">

@@ -21,11 +21,14 @@ const addUser = (user, socket) => {
     // there was an old tab open for this user, force it to disconnect
     //oldSocket.disconnect();
     //delete socketToUserMap[oldSocket.id];
+    socket.disconnect();
+    sidToSocketMap.delete(socket.id);
     return false;
   }
 
   userToSocketMap[user._id] = socket;
   socketToUserMap[socket.id] = user;
+  return true;
 };
 
 const removeUser = (user, socket) => {
@@ -46,13 +49,19 @@ module.exports = {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
         sidToSocketMap.delete(socket.id);
+        console.log(`i am ${socket.id}, my rooms are ${socket.rooms}`)
+        console.log(socket.rooms)
+
+        socket.emit("nono", () => console.log("ACK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"));
+        
+        socket.emit("404", {redirect: "/"});
 
         let gameId = [...(socket.rooms)].filter((e) => { return e !== socket.id; })[0];
         console.log(socket.rooms, gameId);
         let g = rs.getGame(gameId);
         if (g && g.started){
           rs.removeMember(gameId, user);
-          io.in(gameId).emit('attendees', rs.getMembers(gameId).map((m) => m.username));
+          io.in(gameId).emit('attendees', {attendees: rs.getMembers(gameId).map((m) => m.username)});
           if (_.isEqual(g.answerer, user)){
             g.dcFlag = true;
           }

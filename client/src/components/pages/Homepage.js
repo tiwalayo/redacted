@@ -39,6 +39,10 @@ class Homepage extends Component {
   }
 
   render() {
+    if (this.props.location.state && this.props.location.state.inactive === true){
+      return (<div className="Game-loading"><div>you already have a Redacted tab open.</div><div>close this one!</div></div>)
+    }
+
     const attendeeList = this.state.gameCreated ? (
       <AttendeeList attendees={this.state.attendees}/>
     ) : (<></>);
