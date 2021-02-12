@@ -1,7 +1,7 @@
 const { OAuth2Client } = require("google-auth-library");
 const User = require("./models/user");
 const socketManager = require("./server-socket");
-const nanoid = require('nanoid');
+const nanoid = require('nanoid').nanoid;
 
 // create a new OAuth client used to verify google sign-in
 //    TODO: replace with your own CLIENT_ID
@@ -55,23 +55,14 @@ function logout(req, res) {
 function populateCurrentUser(req, res, next) {
   // simply populate "req.user" for convenience
   req.user = req.session.user;
-  console.log("pcu called");
   next();
 }
 
 function assignUID(req, res, next) {
-  console.log("auid called");
   if (!req.session.user){
-    req.session.user = nanoid();
+    req.session.user = {_id: nanoid()};
   }
-  next();
-}
-function asignUID(req, res, next){
-  // assign user a UID if he doesn't already have one
-  console.log("auid called");
-  if (!req.session.user){
-    req.session.user = nanoid();
-  }
+  console.log(`assigned ${req.session.user._id}`);
   next();
 }
 

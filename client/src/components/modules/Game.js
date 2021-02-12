@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
-import { get, post } from "../../utilities.js"
 
 import Timer from "../modules/Timer.js"
 import PlayerList from "../modules/PlayerList.js"
@@ -28,6 +27,7 @@ class Game extends Component {
   componentDidMount(){
 
     socket.on("asking", (data) => {
+      console.log("now asking")
       this.setState({
         stage: "asking",
         time: data.time,
@@ -36,10 +36,12 @@ class Game extends Component {
     });
 
     socket.on("pending", (data) => {
+      console.log("now pending")
       this.setState({
         stage: "pending",
         time: data.time,
         role: data.role,
+        answerer: data.answerer
       });
     });
 
@@ -63,7 +65,7 @@ class Game extends Component {
   }
 
   render() {
-    const gameScreen;
+    let gameScreen;
     if (this.state.stage === "asking"){
       gameScreen = (
         <>
@@ -79,7 +81,7 @@ class Game extends Component {
           <Timer time={this.state.time} />
           <PlayerList gameId={this.props.gameId} />
           <div className="Game-pending-caption">
-            { this.role == "answerer" ?
+            { this.state.role == "answerer" ?
             "people are thinking of what to ask you" :
             `waiting for ${this.state.answerer}`}
           </div>

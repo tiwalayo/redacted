@@ -52,6 +52,7 @@ class App extends Component {
           <Homepage
             path="/"
           />
+          <NotFound path="/404" /> 
           <GameRoom path="/:gameId" />
           <NotFound default />
         </Router>

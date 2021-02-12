@@ -12,15 +12,14 @@ class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      time: this.props.time
     };
-
-    this.timerText = React.createRef();
   }
 
   startTimer = (duration) => {
     let timer = duration
-    var s = setInterval(function () {
-      this.timerText.current.textContent = timer;
+    var s = setInterval(() => {
+      this.setState({time: timer})
         if (--timer < 0) {
             clearInterval(s);
         }
@@ -35,7 +34,7 @@ class Timer extends Component {
   render() {
     return (
       <div className="Timer-container">
-        <div className="Timer-value" ref={this.timerText}>{this.props.time}</div>
+        <div className="Timer-value">{this.state.time}</div>
       </div>
     );
   }

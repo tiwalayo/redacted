@@ -7,6 +7,7 @@ import "./HomepageInput.css";
  *
  * Proptypes
  * @param {string} defaultText
+ * @param {string} buttonText
  * @param {function} onSubmit
  */
 class HomepageInput extends Component {
@@ -52,7 +53,7 @@ class HomepageInput extends Component {
           value="create room"
           onClick={this.handleSubmit}
         >
-          create room
+          {this.props.buttonText}
         </button>
       </>
     );

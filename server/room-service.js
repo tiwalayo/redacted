@@ -1,4 +1,6 @@
-const nanoid = require('nanoid');
+const { customAlphabet } = require('nanoid');
+const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_';
+const nanoid = customAlphabet(alphabet, 10);
 
 const roomList = new Set();
 const idToNameMap = new Map();
