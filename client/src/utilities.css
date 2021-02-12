@@ -20,8 +20,9 @@
 :root {
   --primary: #396dff;
   --primary--dim: #6987db;
-  --darkgrey: #d4d4d4;
+  --darkgrey: #333333;
   --medgrey: #e0e0e0;
+  --lightgrey: #f7f7f7;
   --grey: #f7f7f7;
   --white: #fff;
 
@@ -29,6 +30,9 @@
   --s: 8px;
   --m: 16px;
   --l: 24px;
+
+  background-color: var(--darkgrey);
+
 }
 
 body {
